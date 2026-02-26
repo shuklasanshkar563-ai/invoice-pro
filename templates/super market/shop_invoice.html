@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Invoice</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+
+<!-- Header -->
+<header class="app-header">
+    <a href="/" class="back-btn">←</a>
+    <h1>Shop Invoice</h1>
+</header>
+
+<!-- Body -->
+<main class="app-body">
+
+<form class="app-form" action="/generate" method="POST">
+
+    <input type="hidden" name="invoice_type" value="shop">
+
+    <!-- Customer Section -->
+    <div class="form-card">
+        <h3>Customer Details</h3>
+
+        <input name="name" placeholder="Customer Name" required>
+        <input name="email" placeholder="Email">
+        <input name="mobile" placeholder="Mobile">
+        <input name="address" placeholder="Address">
+
+        <div class="check-group">
+            <label><input type="checkbox" name="show_email"> Show Email</label>
+            <label><input type="checkbox" name="show_mobile"> Show Mobile</label>
+            <label><input type="checkbox" name="show_address"> Show Address</label>
+        </div>
+    </div>
+
+    <!-- Item Section -->
+    <div class="form-card">
+        <h3>Item Details</h3>
+
+        <input name="service_name" placeholder="Item / Service">
+        <input type="number" name="quantity" placeholder="Quantity" value="1">
+        <input type="number" step="0.01" name="rate" placeholder="Rate">
+
+        <textarea name="note" placeholder="Note"></textarea>
+
+        <label class="single-check">
+            <input type="checkbox" name="show_note"> Show Note
+        </label>
+    </div>
+
+    <!-- PDF Section -->
+    <div class="form-card">
+        <h3>PDF Settings</h3>
+        <input name="name_pdf" placeholder="PDF File Name">
+    </div>
+
+    <button class="primary-btn" type="submit">
+        Generate Invoice
+    </button>
+
+</form>
+<style>
+    /* Back button */
+.back-btn {
+    position: absolute;
+    left: 15px;
+    top: 18px;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+/* Form */
+.app-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Cards */
+.form-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+}
+
+.form-card h3 {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+/* Inputs */
+.app-form input,
+.app-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* Checkboxes */
+.check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 13px;
+}
+
+.single-check {
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+/* Button */
+.primary-btn {
+    background: #5b6cff;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.primary-btn:active {
+    transform: scale(0.97);
+}
+
+</style>
+
+</main>
+
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice History</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+
+<style>
+:root {
+    --bg: #f3f4f6;
+    --card: #ffffff;
+    --text: #111;
+    --sub: #555;
+    --header: #5b6cff;
+}
+
+body.dark {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #f8fafc;
+    --sub: #cbd5e1;
+    --header: #020617;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+    margin: 0;
+}
+
+/* HEADER */
+.app-header {
+    background: var(--header);
+    color: white;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: sticky;
+    top: 0;
+}
+
+.back-btn {
+    position: absolute;
+    left: 14px;
+    font-size: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.theme-switch {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+}
+
+.theme-switch button {
+    border: none;
+    background: rgba(255,255,255,0.25);
+    color: white;
+    padding: 5px 8px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* BODY */
+.app-body {
+    padding: 16px;
+}
+
+/* CARD */
+.history-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+}
+
+.history-card h4 {
+    margin: 0 0 6px;
+}
+
+.history-card small {
+    color: var(--sub);
+}
+
+.delete-btn {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 12px;
+    color: #ff4d4d;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.empty {
+    text-align: center;
+    color: var(--sub);
+    margin-top: 40px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+    <a href="/" class="back-btn">←</a>
+    <strong>Invoice History</strong>
+
+    <div class="theme-switch">
+        <button onclick="setTheme('light')">☀</button>
+        <button onclick="setTheme('dark')">🌙</button>
+    </div>
+</header>
+
+<!-- SEARCH -->
+<div class="app-body">
+<input
+    type="text"
+    id="searchInput"
+    placeholder="Search by name or date..."
+    style="width:100%;padding:12px;border-radius:12px;border:1px solid #ccc;margin-bottom:16px;"
+>
+
+<!-- SUMMARY -->
+<div class="history-card" style="text-align:center;">
+    <h4>Total Invoices: {{ invoices|length }}</h4>
+    <small>Total Amount: ₹{{ invoices | sum(attribute='amount') }}</small>
+</div>
+
+{% if invoices %}
+    {% for inv in invoices %}
+    <div class="history-card"
+         data-name="{{ inv.name }}"
+         data-date="{{ inv.date }}">
+
+        <h4>{{ inv.name }}</h4>
+        <small>
+            🧾 {{ inv.invoice_no or "Invoice" }} <br>
+            💰 ₹{{ inv.amount }} <br>
+            📅 {{ inv.date }}
+        </small>
+
+        <a href="/delete/{{ inv.invoice_no }}"
+           class="delete-btn"
+           onclick="return confirm('Delete this invoice?')">
+           🗑 Delete
+        </a>
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="empty">No invoices found yet 📭</p>
+{% endif %}
+</div>
+
+<!-- THEME -->
+<script>
+function setTheme(mode){
+    document.body.classList.toggle("dark", mode === "dark");
+    localStorage.setItem("theme", mode);
+}
+setTheme(localStorage.getItem("theme") || "light");
+</script>
+
+<!-- SEARCH SCRIPT -->
+<script>
+document.getElementById("searchInput").addEventListener("input", function(){
+    const val = this.value.toLowerCase();
+    document.querySelectorAll(".history-card").forEach(card=>{
+        const name = card.dataset.name?.toLowerCase() || "";
+        const date = card.dataset.date?.toLowerCase() || "";
+        card.style.display = (name.includes(val) || date.includes(val)) ? "block" : "none";
+    });
+});
+</script>
+
+</body>
+</html>

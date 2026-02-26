@@ -1,0 +1,17 @@
+{
+    "theme": "light",
+    "currency": "\u20b9",
+    "business_name": "tyt",
+    "logo_path": "",
+    "accent_color": "#5b6cff",
+    "font_size": "Normal",
+    "tax_percent": "52",
+    "default_payment": "Cash",
+    "default_note": "",
+    "mobile": "07222939350",
+    "email": "shuklasanshkar563@gmail.com",
+    "address": "jnkp",
+    "auto_save": "on",
+    "confirm_delete": "on",
+    "invoice_prefix": "INV-ty5ny"
+}

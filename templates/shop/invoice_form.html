@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+
+<!-- MUST for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Invoice Generator</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- PWA -->
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#0d6efd">
+
+<!-- Icons -->
+<link rel="icon" type="image/png" href="/static/icons/icon-192.png">
+
+<style>
+    /* ---------- DARK MODE TEXT FIX ---------- */
+body.dark,
+body.dark h1,
+body.dark h2,
+body.dark h3,
+body.dark h4,
+body.dark h5,
+body.dark h6,
+body.dark p,
+body.dark label,
+body.dark span,
+body.dark small,
+body.dark strong {
+    color: #f8fafc !important;
+}
+
+/* Bootstrap muted text override */
+body.dark .text-muted {
+    color: #cbd5e1 !important;
+}
+
+/* Form inputs text */
+body.dark .form-control {
+    background-color: #020617;
+    color: #f8fafc;
+    border-color: #334155;
+}
+
+body.dark .form-control::placeholder {
+    color: #94a3b8;
+}
+
+/* Checkbox labels */
+body.dark .form-check-label {
+    color: #f8fafc;
+}
+
+/* Card shadow tweak (optional premium feel) */
+body.dark .card {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+
+/* ---------- THEME ---------- */
+:root {
+    --bg: #f8f9fa;
+    --card: #ffffff;
+    --text: #000;
+    --sub: #6c757d;
+    --header: #0d6efd;
+}
+
+body.dark {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #f8fafc;
+    --sub: #cbd5e1;
+    --header: #020617;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    padding-bottom: 40px;
+}
+
+/* ---------- HEADER ---------- */
+.app-header {
+    background: var(--header);
+    color: white;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.back-btn {
+    position: absolute;
+    left: 14px;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+}
+
+.theme-switch {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    gap: 6px;
+}
+
+.theme-switch button {
+    border: none;
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border-radius: 8px;
+    font-size: 12px;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.theme-switch button.active {
+    background: white;
+    color: black;
+}
+
+/* ---------- CARD ---------- */
+.card {
+    background: var(--card);
+    border-radius: 14px;
+}
+
+.text-muted {
+    color: var(--sub) !important;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="app-header">
+    <a href="/" class="back-btn">←</a>
+    <strong>Invoice Generator</strong>
+
+    <div class="theme-switch">
+        <button id="lightBtn" onclick="setTheme('light')">☀</button>
+        <button id="darkBtn" onclick="setTheme('dark')">🌙</button>
+    </div>
+</header>
+
+<div class="container">
+<div class="row justify-content-center">
+<div class="col-12 col-md-8 col-lg-6">
+
+<div class="card p-3 p-md-4 mt-4 shadow-sm">
+
+<!-- INSTALL BUTTON -->
+<button id="installBtn" class="btn btn-primary w-100 mb-3" style="display:none;">
+📲 Install App
+</button>
+
+<h3 class="text-center mb-3">Universal Invoice Generator</h3>
+
+<form action="/generate" method="post">
+
+<input type="text" name="name" class="form-control mb-2" placeholder="Customer Name" required>
+
+<div class="form-check mb-1">
+<input class="form-check-input" type="checkbox" name="show_email">
+<label class="form-check-label">Include Email</label>
+</div>
+<input type="email" name="email" class="form-control mb-2" placeholder="Email">
+
+<div class="form-check mb-1">
+<input class="form-check-input" type="checkbox" name="show_mobile">
+<label class="form-check-label">Include Mobile</label>
+</div>
+<input type="text" name="mobile" class="form-control mb-2" placeholder="Mobile">
+
+<div class="form-check mb-1">
+<input class="form-check-input" type="checkbox" name="show_address">
+<label class="form-check-label">Include Address</label>
+</div>
+<textarea name="address" class="form-control mb-3" placeholder="Address"></textarea>
+
+<hr>
+
+<h6 class="fw-bold">Service / Item Details</h6>
+
+<input type="text" name="service_name" class="form-control mb-2" placeholder="Service or Product Name" required>
+
+<div class="row g-2">
+<div class="col-6">
+<label class="small fw-semibold">Quantity</label>
+<input type="number" name="quantity" class="form-control" value="1" required>
+</div>
+
+<div class="col-6">
+<label class="small fw-semibold">Rate (₹)</label>
+<input type="number" name="rate" class="form-control" required>
+</div>
+</div>
+
+<div class="form-check mt-3 mb-1">
+<input class="form-check-input" type="checkbox" name="show_note">
+<label class="form-check-label">Include Notes</label>
+</div>
+<textarea name="note" class="form-control mb-3" placeholder="Notes / Terms"></textarea>
+
+<input type="text" name="name_pdf" class="form-control mb-3" placeholder="PDF file name">
+
+<button class="btn btn-success w-100 py-2">
+Generate Invoice PDF
+</button>
+
+</form>
+</div>
+
+</div>
+</div>
+</div>
+
+<hr>
+
+<!-- <div class="text-center mt-3">
+<small class="text-muted">
+Built by <a href="/ownership" class="fw-bold text-decoration-none">🚀 SS Web Studio</a>
+</small>
+</div> -->
+
+<!-- INSTALL SCRIPT -->
+<script>
+let deferredPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{
+e.preventDefault();deferredPrompt=e;
+document.getElementById("installBtn").style.display="block";
+});
+document.getElementById("installBtn").onclick=async()=>{
+if(!deferredPrompt)return;
+deferredPrompt.prompt();
+await deferredPrompt.userChoice;
+deferredPrompt=null;
+document.getElementById("installBtn").style.display="none";
+};
+</script>
+
+<!-- SERVICE WORKER -->
+<script>
+if("serviceWorker"in navigator){
+navigator.serviceWorker.register("/static/service-worker.js");
+}
+</script>
+
+<!-- THEME SCRIPT -->
+<script>
+function setTheme(mode){
+document.body.classList.toggle("dark",mode==="dark");
+localStorage.setItem("theme",mode);
+document.getElementById("lightBtn").classList.toggle("active",mode==="light");
+document.getElementById("darkBtn").classList.toggle("active",mode==="dark");
+}
+setTheme(localStorage.getItem("theme")||"light");
+</script>
+
+</body>
+</html>

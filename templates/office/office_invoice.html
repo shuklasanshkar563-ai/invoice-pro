@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Office Invoice</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="app-header">
+    <a href="/" class="back-btn">←</a>
+    <h1>Office Invoice</h1>
+    <div class="theme-switch">
+    <button type="button" onclick="setTheme('light')" id="lightBtn">☀ Light</button>
+    <button type="button" onclick="setTheme('dark')" id="darkBtn">🌙 Dark</button>
+</div>
+
+</div>
+
+<!-- BODY -->
+<div class="app-body">
+
+<form class="app-form" action="/generate" method="POST">
+
+    <input type="hidden" name="invoice_type" value="office">
+
+    <!-- CLIENT DETAILS -->
+    <div class="form-card">
+        <h3>Client Details</h3>
+
+        <input name="name" placeholder="Client Name" required>
+        <input name="email" placeholder="Email">
+        <input name="mobile" placeholder="Mobile">
+
+        <div class="check-group">
+            <label><input type="checkbox" name="show_email"> Show Email</label>
+            <label><input type="checkbox" name="show_mobile"> Show Mobile</label>
+        </div>
+    </div>
+
+    <!-- WORK DETAILS -->
+    <div class="form-card">
+        <h3>Work Details</h3>
+
+        <input name="service_name" placeholder="Project / Task">
+        <input type="number" name="quantity" placeholder="Hours" value="1">
+        <input type="number" step="0.01" name="rate" placeholder="Rate per Hour">
+
+        <div class="total-box">
+            Total = Hours × Rate
+        </div>
+    </div>
+
+    <!-- NOTE -->
+    <div class="form-card">
+        <h3>Description</h3>
+
+        <textarea name="note" placeholder="Work Description"></textarea>
+
+        <div class="single-check">
+            <label><input type="checkbox" name="show_note"> Show Description</label>
+        </div>
+    </div>
+
+    <!-- PDF -->
+    <div class="form-card">
+        <h3>PDF Settings</h3>
+
+        <input name="name_pdf" placeholder="PDF File Name (optional)">
+    </div>
+
+    <!-- SUBMIT -->
+    <button type="submit" class="primary-btn">
+        Generate Invoice
+    </button>
+
+</form>
+
+</div>
+<div class="app-header">
+    <a href="/" class="back-btn">←</a>
+    <h1>Office Invoice</h1>
+    <span class="toggle-btn" onclick="toggleDarkMode()">🌙</span>
+</div>
+
+</body>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</html>

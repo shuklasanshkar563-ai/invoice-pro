@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invoice Pro</title>
+
+<meta name="theme-color" content="#5b6cff">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif
+}
+
+/* ---------- THEME ---------- */
+:root{
+    --bg:#f3f4f6;
+    --card:#fff;
+    --text:#000;
+    --sub:#666;
+    --header:#5b6cff;
+    --nav:#ffffff;
+}
+body.dark{
+    --bg:#0f172a;
+    --card:#1e293b;
+    --text:#f8fafc;
+    --sub:#cbd5e1;
+    --header:#020617;
+    --nav:#020617;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    padding-bottom:70px;
+}
+
+/* ---------- HEADER ---------- */
+.app-header{
+    height:56px;
+    background:var(--header);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative
+}
+.app-header h1{font-size:18px}
+
+.back-btn{
+    position:absolute;
+    left:14px;
+    font-size:20px;
+    color:white;
+    text-decoration:none
+}
+
+.theme-switch{
+    position:absolute;
+    right:10px;
+    display:flex;
+    gap:6px
+}
+.theme-switch button{
+    padding:4px 8px;
+    border:none;
+    border-radius:6px;
+    background:rgba(255,255,255,.2);
+    color:white;
+    cursor:pointer;
+    font-size:12px
+}
+.theme-switch button.active{
+    background:#fff;
+    color:#000
+}
+
+/* ---------- BODY ---------- */
+.app-body{padding:20px}
+.subtitle{
+    font-size:14px;
+    color:var(--sub);
+    margin-bottom:16px
+}
+
+/* ---------- INTRO (NEW) ---------- */
+.intro-card{
+    background:var(--card);
+    padding:16px;
+    border-radius:16px;
+    margin-bottom:20px;
+    box-shadow:0 6px 16px rgba(0,0,0,.08)
+}
+.intro-card h2{
+    font-size:16px;
+    margin-bottom:6px
+}
+.intro-card p{
+    font-size:13px;
+    color:var(--sub);
+    line-height:1.4
+}
+
+/* ---------- GRID ---------- */
+.app-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:16px
+}
+.app-card{
+    background:var(--card);
+    border-radius:16px;
+    padding:22px 10px;
+    text-align:center;
+    text-decoration:none;
+    color:var(--text);
+    box-shadow:0 6px 16px rgba(0,0,0,.08)
+}
+.app-card span{
+    font-size:32px;
+    display:block;
+    margin-bottom:8px
+}
+.app-card h3{font-size:15px}
+.app-card p{
+    font-size:12px;
+    color:var(--sub)
+}
+
+/* ---------- FOOTER (NEW) ---------- */
+.app-footer{
+    text-align:center;
+    padding:14px;
+    font-size:12px;
+    color:var(--sub);
+}
+.app-footer a{
+    color:var(--sub);
+    text-decoration:none;
+    margin:0 6px;
+}
+
+/* ---------- BOTTOM NAV ---------- */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    height:60px;
+    background:var(--nav);
+    display:flex;
+    border-top:1px solid #ddd
+}
+.bottom-nav a{
+    flex:1;
+    text-align:center;
+    text-decoration:none;
+    color:var(--sub);
+    font-size:12px;
+    padding-top:6px
+}
+.bottom-nav a span{
+    display:block;
+    font-size:20px
+}
+.bottom-nav a.active{
+    color:var(--header);
+    font-weight:600
+}
+</style>
+</head>
+
+<body>
+
+<header class="app-header">
+    <a href="/" class="back-btn">←</a>
+    <h1>Invoice Pro</h1>
+
+    <div class="theme-switch">
+        <button id="lightBtn" onclick="setTheme('light')">☀</button>
+        <button id="darkBtn" onclick="setTheme('dark')">🌙</button>
+    </div>
+</header>
+
+<main class="app-body">
+
+    <!-- 🔹 ABOUT APP (NEW) -->
+    <!-- 🔹 APP INFO POPUP -->
+<div class="info-popup" id="infoPopup">
+    <span id="infoText"></span>
+    <style>
+        .info-popup{
+    background: var(--card);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 6px 16px rgba(0,0,0,.08);
+    font-size: 14px;
+    color: var(--text);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(6px);}
+    to{opacity:1; transform:translateY(0);}
+}
+    </style>
+    <script>
+const infoLines = [
+  "📄 Invoice Pro helps you create professional invoices easily.",
+  "🧾 Generate Shop, Office, School & Personal invoices.",
+  "📂 Your invoice data stays on your device only.",
+  "🔐 We do not collect or share personal information.",
+  "📸 Attach payment proof images in invoices.",
+  "🌙 Light & Dark mode supported.",
+  "📑 Invoice history is stored locally.",
+  "🔒 Privacy-first & offline friendly application."
+];
+
+let index = 0;
+const infoText = document.getElementById("infoText");
+
+function rotateInfo(){
+    infoText.innerText = infoLines[index];
+    index = (index + 1) % infoLines.length;
+}
+
+rotateInfo();
+setInterval(rotateInfo, 2000); // change line every 3 sec
+</script>
+</div>
+
+    <p class="subtitle">Select category</p>
+
+    <div class="app-grid">
+        <a href="/shop" class="app-card">
+            <span>🏪</span><h3>Shop</h3><p>Business</p>
+        </a>
+        <a href="/office" class="app-card">
+            <span>🏢</span><h3>Office</h3><p>Freelance</p>
+        </a>
+        <a href="/school" class="app-card">
+            <span>🏫</span><h3>School</h3><p>Fees</p>
+        </a>
+        <a href="/personal" class="app-card">
+            <span>👤</span><h3>Personal</h3><p>Private</p>
+        </a>
+    </div>
+
+    <!-- 🔹 FOOTER LINKS (NEW) -->
+    <footer class="app-footer">
+        <a href="/about">About</a> •
+        <a href="/privacy">Privacy Policy</a>
+    </footer>
+
+</main>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+    <a href="/" class="active">
+        <span>🏠</span>
+        <small>Home</small>
+    </a>
+
+    <a href="/history">
+        <span>🧾</span>
+        <small>History</small>
+    </a>
+
+    <a href="/settings">
+        <span>⚙</span>
+        <small>Settings</small>
+    </a>
+</nav>
+
+<script>
+function setTheme(mode){
+    document.body.classList.toggle("dark",mode==="dark");
+    localStorage.setItem("theme",mode);
+    document.getElementById("lightBtn").classList.toggle("active",mode==="light");
+    document.getElementById("darkBtn").classList.toggle("active",mode==="dark");
+}
+setTheme(localStorage.getItem("theme")||"light");
+</script>
+<!-- PWA INSTALL BANNER -->
+<div id="pwa-banner" style="
+    position:fixed;
+    bottom:70px;
+    left:16px;
+    right:16px;
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    display:none;
+    z-index:2000;
+">
+    <strong>📲 Install Invoice Pro</strong>
+    <p style="font-size:13px;color:var(--sub);margin:6px 0;">
+        Add app to home screen for faster access
+    </p>
+
+    <div style="display:flex;gap:10px;">
+        <button onclick="installPWA()" style="
+            flex:1;
+            padding:8px;
+            border:none;
+            border-radius:10px;
+            background:#5b6cff;
+            color:white;
+            font-weight:600;
+        ">
+            Install
+        </button>
+
+        <button onclick="hidePWABanner()" style="
+            flex:1;
+            padding:8px;
+            border:none;
+            border-radius:10px;
+            background:#e5e7eb;
+        ">
+            Later
+        </button>
+    </div>
+    <script>
+let deferredPrompt;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    if (!localStorage.getItem("pwaDismissed")) {
+        document.getElementById("pwa-banner").style.display = "block";
+    }
+});
+
+function installPWA() {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+            hidePWABanner();
+        });
+    }
+}
+
+function hidePWABanner() {
+    document.getElementById("pwa-banner").style.display = "none";
+    localStorage.setItem("pwaDismissed", "yes");
+}
+</script>
+</div>
+</body>
+</html>

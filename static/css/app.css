@@ -1,0 +1,141 @@
+:root {
+    --bg: #f4f6fb;
+    --card: #ffffff;
+    --text: #222;
+    --primary: #4f46e5;
+    --border: #ddd;
+}
+
+body.dark {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #e5e7eb;
+    --border: #334155;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: system-ui, sans-serif;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* HEADER */
+.app-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+}
+
+.app-header h1 {
+    font-size: 18px;
+    flex: 1;
+}
+
+.back-btn {
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--primary);
+}
+
+.toggle-btn {
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* BODY */
+.app-body {
+    padding: 15px;
+}
+
+.app-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* CARDS */
+.form-card {
+    background: var(--card);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+}
+
+.form-card h3 {
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+/* INPUTS */
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+/* CHECKBOX */
+.check-group, .single-check {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+}
+
+/* TOTAL */
+.total-box {
+    padding: 10px;
+    background: rgba(79,70,229,0.1);
+    border-radius: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* BUTTON */
+.primary-btn {
+    position: sticky;
+    bottom: 10px;
+    padding: 15px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 16px;
+    cursor: pointer;
+}
+.theme-switch {
+    display: flex;
+    gap: 6px;
+}
+
+.theme-switch button {
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+}
+
+.theme-switch button.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+

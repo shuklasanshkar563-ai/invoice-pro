@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>App Ownership | Invoice Generator</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .card {
+            border-radius: 18px;
+        }
+        .profile-img {
+            width: 130px;
+            height: 130px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #0d6efd;
+        }
+        .social-icons a {
+            font-size: 22px;
+            margin: 0 10px;
+            color: #0d6efd;
+            transition: 0.3s;
+        }
+        .social-icons a:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            <div class="card shadow p-4 text-center">
+
+                <!-- Profile Image -->
+                <img src="{{ url_for('static', filename='wastapp image 2.jpg') }}" 
+                     class="profile-img mb-3">
+
+                <h3 class="mb-2">Shriii</h3>
+                <p class="text-muted">Founder – Shriii Web Solutions</p>
+
+                <hr>
+
+                <p>
+                    <strong>Application:</strong> Universal Invoice Generator
+                </p>
+
+                <p>
+    The <strong>Universal Invoice Generator</strong> is a lightweight, 
+    professional billing solution designed to help individuals and businesses 
+    generate clean, structured, and downloadable PDF invoices instantly.
+</p>
+
+<hr>
+
+<h5 class="fw-bold mt-3">Who Can Use This Application?</h5>
+
+<ul class="text-start mt-3">
+    <li><strong>Freelancers</strong> – Web developers, designers, editors, marketers, and consultants who need quick client invoices.</li>
+    <li><strong>Small Business Owners</strong> – Retail shops, service centers, coaching institutes, boutiques, and local businesses.</li>
+    <li><strong>Service Professionals</strong> – Electricians, plumbers, technicians, photographers, and on-site service providers.</li>
+    <li><strong>Startups & Entrepreneurs</strong> – Early-stage businesses requiring simple invoice documentation.</li>
+    <li><strong>Students & Side Hustlers</strong> – Individuals offering freelance or project-based services.</li>
+</ul>
+
+<hr>
+
+<h5 class="fw-bold mt-3">Key Benefits</h5>
+
+<ul class="text-start mt-3">
+    <li>✔ Instant PDF invoice generation</li>
+    <li>✔ Mobile-friendly & installable (PWA supported)</li>
+    <li>✔ Customizable client details</li>
+    <li>✔ Clean and professional invoice format</li>
+    <li>✔ Simple and fast billing process</li>
+</ul>
+
+
+                <!-- Social Media -->
+                <div class="social-icons mt-3">
+                    <a href="https://www.instagram.com/ss.web.studio05._?igsh=OTk0ZzIxa200aTNu" target="_blank">
+                        <i class="bi bi-instagram"></i>
+                    </a>
+                    <a href="" target="_blank">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    <a href="" target="_blank">
+                        <i class="bi bi-github"></i>
+                    </a>
+                </div>
+
+                <hr>
+
+                <p class="text-muted small">
+                    © 2026 SS web studio. All Rights Reserved.
+                </p>
+
+                <a href="/" class="btn btn-primary mt-3">⬅ Back to App</a>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

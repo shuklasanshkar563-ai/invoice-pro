@@ -1,0 +1,10 @@
+{
+  "theme": "light",
+  "currency": "₹",
+  "tax_enabled": false,
+  "tax_percent": 0,
+  "auto_save": true,
+  "business_name": "",
+  "mobile": "",
+  "email": ""
+}

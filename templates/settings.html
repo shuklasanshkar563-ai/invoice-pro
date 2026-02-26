@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Settings</title>
+
+<style>
+:root {
+    --bg:#f3f4f6;
+    --text:#000;
+    --card:#fff;
+    --sub:#555;
+}
+body.dark {
+    --bg:#0f172a;
+    --text:#fff;
+    --card:#1e293b;
+    --sub:#cbd5e1;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui;
+    margin: 0;
+}
+
+.card {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 16px;
+    max-width: 480px;
+    margin: 16px auto;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+.section {
+    margin-bottom: 22px;
+}
+
+.section h4 {
+    margin-bottom: 8px;
+    color: var(--sub);
+    font-size: 14px;
+}
+
+label {
+    font-size:14px;
+    display:block;
+    margin-top:10px;
+}
+
+input, select, textarea {
+    width:100%;
+    padding:10px;
+    margin-top:6px;
+    border-radius:10px;
+    border:1px solid #ccc;
+}
+
+.toggle {
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-top:10px;
+}
+
+button {
+    width:100%;
+    padding:12px;
+    border-radius:12px;
+    border:none;
+    background:#5b6cff;
+    color:white;
+    font-size:15px;
+}
+
+.danger {
+    background:#ff4d4d;
+}
+
+a {
+    text-decoration:none;
+    color:#5b6cff;
+    font-weight:600;
+}
+</style>
+</head>
+
+<body class="{{ 'dark' if settings.theme == 'dark' else '' }}">
+
+<div class="card">
+<h2>⚙ Settings</h2>
+
+<form method="post" enctype="multipart/form-data">
+<hr style="margin:20px 0;">
+
+<div class="card" style="padding:16px;">
+  <h3 style="margin-bottom:12px;">ℹ App Information</h3>
+
+  <a href="/about" style="
+      display:block;
+      padding:12px;
+      border-radius:10px;
+      background:#f1f5f9;
+      margin-bottom:10px;
+      color:inherit;
+      font-size:14px;
+      font-weight:500;
+      text-decoration:none;">
+      📄 About Invoice Pro
+  </a>
+
+  <a href="/privacy" style="
+      display:block;
+      padding:12px;
+      border-radius:10px;
+      background:#f1f5f9;
+      color:inherit;
+      font-size:14px;
+      font-weight:500;
+      text-decoration:none;">
+      🔐 Privacy Policy
+  </a>
+</div>
+<!-- APPEARANCE -->
+<div class="section">
+<h4>🎨 Appearance</h4>
+
+<label>Theme</label>
+<select name="theme">
+<option value="light" {{ 'selected' if settings.theme=='light' else '' }}>Light</option>
+<option value="dark" {{ 'selected' if settings.theme=='dark' else '' }}>Dark</option>
+</select>
+
+<label>Accent Color</label>
+<input type="color" name="accent_color" value="{{ settings.accent_color or '#5b6cff' }}">
+
+<label>Font Size</label>
+<select name="font_size">
+<option>Small</option>
+<option selected>Normal</option>
+<option>Large</option>
+</select>
+</div>
+
+<!-- INVOICE DEFAULTS -->
+<div class="section">
+<h4>🧾 Invoice Defaults</h4>
+
+<label>Currency</label>
+<select name="currency">
+<option {{ 'selected' if settings.currency=='₹' else '' }}>₹</option>
+<option {{ 'selected' if settings.currency=='$' else '' }}>$</option>
+<option {{ 'selected' if settings.currency=='€' else '' }}>€</option>
+</select>
+
+<div class="toggle">
+<input type="checkbox" name="tax_enabled" {{ 'checked' if settings.tax_enabled else '' }}>
+<label>Enable Tax</label>
+</div>
+
+<input type="number" name="tax_percent" placeholder="Tax %" value="{{ settings.tax_percent }}">
+
+<label>Default Payment Mode</label>
+<select name="default_payment">
+<option>Cash</option>
+<option>UPI</option>
+<option>Bank Transfer</option>
+</select>
+
+<label>Default Invoice Note</label>
+<textarea name="default_note" rows="2">{{ settings.default_note }}</textarea>
+
+<div class="toggle">
+<input type="checkbox" name="show_mobile_default">
+<label>Show Mobile on Invoice</label>
+</div>
+</div>
+
+<!-- BUSINESS PROFILE -->
+<div class="section">
+<h4>🏢 Business Profile</h4>
+
+<input name="business_name" placeholder="Business Name" value="{{ settings.business_name }}">
+<input name="mobile" placeholder="Mobile" value="{{ settings.mobile }}">
+<input name="email" placeholder="Email" value="{{ settings.email }}">
+<textarea name="address" placeholder="Business Address" rows="2">{{ settings.address }}</textarea>
+
+<!-- <label>Logo (for PDF)</label>
+<input type="file" name="logo">
+</div> -->
+
+<!-- SYSTEM -->
+<div class="section">
+<h4>⚙ System</h4>
+
+<div class="toggle">
+<input type="checkbox" name="auto_save" {{ 'checked' if settings.auto_save else '' }}>
+<label>Auto Save Invoices</label>
+</div>
+
+<div class="toggle">
+<input type="checkbox" name="confirm_delete" checked>
+<label>Confirm Before Delete</label>
+</div>
+
+<label>Invoice Number Prefix</label>
+<input name="invoice_prefix" value="{{ settings.invoice_prefix or 'INV-' }}">
+</div>
+
+<!-- DATA -->
+<div class="section">
+<h4>🧹 Data & Safety</h4>
+
+<div class="card">
+<h3>🛠 Admin Tools</h3>
+
+<div class="settings-actions">
+
+    <button onclick="window.location.href='/export-history'">
+        ⬇ Export Invoice History
+    </button>
+
+    <button class="danger" onclick="clearHistory()">
+        🗑 Clear Invoice History
+    </button>
+
+    <button class="danger" onclick="resetApp()">
+        ♻ Reset Application
+    </button>
+
+</div>
+
+<button type="submit" class="save-btn">💾 Save Settings</button>
+<style>
+    body.dark a{
+    background:#1e293b !important;
+}
+    .settings-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;              /* 🔥 spacing between buttons */
+    margin-top: 20px;
+}
+
+.settings-actions button,
+.save-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+}
+
+.settings-actions button {
+    background: #36a2ef;
+}
+
+.settings-actions button.danger {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.save-btn {
+    margin-top: 20px;
+    background: #0a1fe4;
+    color: white;
+}
+</style>
+<script>
+function clearHistory(){
+  if(confirm("Are you sure? All invoice history will be deleted.")){
+    window.location.href = "/clear-history";
+  }
+}
+
+function resetApp(){
+  if(confirm("This will reset settings & delete all invoices. Continue?")){
+    window.location.href = "/reset-app";
+  }
+}
+</script>
+<br>
+<a href="/">⬅ Back to Home</a>
+</div>
+
+</body>
+</html>
