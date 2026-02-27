@@ -5,8 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Pro</title>
-<link rel="manifest" href="/manifest.json">
-
+<link rel="manifest" href="/static/manifest.json">
 <meta name="theme-color" content="#5b6cff">
 
 <style>
@@ -361,5 +360,14 @@ function hidePWABanner() {
 }
 </script>
 </div>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/static/service-worker.js")
+      .then(reg => console.log("SW registered:", reg.scope))
+      .catch(err => console.log("SW error:", err));
+  });
+}
+</script>
 </body>
 </html>

@@ -46,6 +46,13 @@ def view_invoice(invoice_no):
         pdf_file,
         mimetype="application/pdf"
     )
+@app.route("/manifest.json")
+def manifest():
+    return send_from_directory(app.root_path, "manifest.json")
+
+@app.route("/sw.js")
+def service_worker():
+    return send_from_directory(app.root_path, "sw.js")
 # ---------- WELCOME ----------
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():

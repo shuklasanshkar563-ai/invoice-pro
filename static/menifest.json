@@ -1,13 +1,13 @@
 {
-  "name": "Invoice Generator App",
-  "short_name": "InvoiceApp",
-  "description": "Create and manage invoices offline with PDF export",
-  "start_url": "/",
+  "name": "Invoice Pro",
+  "short_name": "InvoicePro",
+  "description": "Create invoices offline and export PDF easily",
+  "start_url": "/welcome",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#5b6cff",
-  "theme_color": "#0d6efd",
+  "background_color": "#ffffff",
+  "theme_color": "#5b6cff",
   "categories": ["business", "productivity"],
   "icons": [
     {
