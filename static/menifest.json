@@ -1,5 +1,4 @@
 {
-  "id": "com.shri.invoicegenerator",
   "name": "Invoice Generator App",
   "short_name": "InvoiceApp",
   "description": "Create and manage invoices offline with PDF export",
@@ -7,7 +6,7 @@
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#ffffff",
+  "background_color": "#5b6cff",
   "theme_color": "#0d6efd",
   "categories": ["business", "productivity"],
   "icons": [
