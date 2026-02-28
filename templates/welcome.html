@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Welcome – Invoice Pro</title>
-
+<link rel="manifest" href="/static/manifest.json">
+<meta name="theme-color" content="#5b6cff">
 <style>
 :root{
     --primary:#5b6cff;
@@ -180,7 +182,7 @@ No sign-up • Free forever
 
 <script>
     if (window.matchMedia('(display-mode: standalone)').matches) {
-    window.location.href = "/index.html";
+    window.location.href = "/";
 }
 let deferredPrompt = null;
 
@@ -236,6 +238,13 @@ window.addEventListener("appinstalled", () => {
     installBtn.style.display="none";
     closeModal();
 });
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/static/service-worker.js");
+  });
+}
 </script>
 
 </body>
