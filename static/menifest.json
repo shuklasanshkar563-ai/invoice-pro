@@ -2,7 +2,7 @@
   "name": "Invoice Pro",
   "short_name": "InvoicePro",
   "description": "Create invoices offline and export PDF easily",
-  "start_url": "/welcome",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",

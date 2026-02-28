@@ -25,11 +25,11 @@ body{
     overflow:hidden;
 }
 
-/* floating background */
+/* background bubbles */
 .bg{
     position:absolute;
-    width:280px;
-    height:280px;
+    width:260px;
+    height:260px;
     background:rgba(255,255,255,.08);
     border-radius:50%;
     animation:float 12s infinite ease-in-out;
@@ -41,15 +41,13 @@ body{
     bottom:-50px;
     animation-delay:5s;
 }
-
 @keyframes float{
     0%,100%{transform:translateY(0)}
     50%{transform:translateY(-30px)}
 }
 
-/* main card */
+/* card */
 .card{
-    position:relative;
     background:rgba(255,255,255,0.18);
     padding:34px;
     border-radius:26px;
@@ -58,98 +56,80 @@ body{
     text-align:center;
     backdrop-filter:blur(14px);
     box-shadow:0 20px 50px rgba(0,0,0,.2);
-    animation:fadeUp .8s ease forwards;
 }
 
-@keyframes fadeUp{
-    from{opacity:0;transform:translateY(20px)}
-    to{opacity:1;transform:translateY(0)}
-}
-
-/* LOGO */
 .logo-wrap{
-    width:90px;
-    height:90px;
+    width:90px;height:90px;
     margin:0 auto 16px;
     border-radius:22px;
     background:#fff;
     display:flex;
     align-items:center;
     justify-content:center;
-    animation:pulse 2.5s infinite;
-    box-shadow:0 12px 30px rgba(0,0,0,.25);
 }
 
-.logo-wrap img{
-    width:54px;
-    height:54px;
-}
+.logo-wrap img{width:54px}
 
-@keyframes pulse{
-    0%{transform:scale(1)}
-    50%{transform:scale(1.05)}
-    100%{transform:scale(1)}
-}
-
-h1{
-    font-size:26px;
-    margin-bottom:8px;
-    font-weight:700;
-}
-
-.subtitle{
-    font-size:14px;
-    opacity:.9;
-    line-height:1.6;
-}
+h1{font-size:26px;margin:8px 0}
+.subtitle{font-size:14px;opacity:.9;line-height:1.6}
 
 ul{
     list-style:none;
-    padding:0;
-    margin:22px 0;
-    text-align:left;
+    padding:0;margin:20px 0;
+    text-align:left;font-size:14px;
 }
+ul li{margin-bottom:8px}
 
-ul li{
-    font-size:14px;
-    margin-bottom:10px;
-    opacity:0;
-    animation:slideIn .6s ease forwards;
-}
-
-ul li:nth-child(1){animation-delay:.3s}
-ul li:nth-child(2){animation-delay:.45s}
-ul li:nth-child(3){animation-delay:.6s}
-ul li:nth-child(4){animation-delay:.75s}
-
-@keyframes slideIn{
-    from{opacity:0;transform:translateX(-10px)}
-    to{opacity:1;transform:translateX(0)}
-}
-
-button{
+/* install CTA inside card */
+.install-card-btn{
     width:100%;
     padding:14px;
-    font-size:15px;
     border:none;
     border-radius:14px;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
     background:#fff;
     color:var(--primary);
+    margin-top:16px;
+}
+
+/* modal */
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.55);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:5000;
+}
+.modal.show{display:flex}
+
+.modal-box{
+    background:rgba(255,255,255,.18);
+    backdrop-filter:blur(18px);
+    border-radius:22px;
+    padding:26px;
+    width:90%;
+    max-width:360px;
+    text-align:center;
+}
+
+.modal-box h2{margin-top:0}
+.modal-box p{font-size:14px;line-height:1.6}
+
+.modal-actions button{
+    width:100%;
+    margin-top:12px;
+    padding:12px;
+    border-radius:12px;
+    border:none;
     font-weight:700;
     cursor:pointer;
-    transition:.2s ease;
 }
-
-button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 20px rgba(0,0,0,.2);
-}
-
-.small{
-    font-size:12px;
-    opacity:.8;
-    margin-top:14px;
-}
+.primary{background:#fff;color:var(--primary)}
+.secondary{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4)}
 </style>
 </head>
 
@@ -160,102 +140,101 @@ button:hover{
 
 <div class="card">
 
-<!-- 🔥 APP LOGO -->
 <div class="logo-wrap">
-    <img 
-      src="{{ url_for('static', filename='icons/icon-512.png') }}?v=2"
-      alt="Invoice Pro Logo">
+<img src="{{ url_for('static', filename='icons/icon-512.png') }}">
 </div>
 
 <h1>Invoice Pro</h1>
 <p class="subtitle">
-Create professional invoices in seconds — simple, fast & fully offline.
+Create professional invoices in seconds — fast, private & offline.
 </p>
 
 <ul>
 <li>📄 Instant invoice creation</li>
 <li>🕒 Invoice history tracking</li>
 <li>🌓 Light & Dark mode</li>
-<li>🔐 Your data stays private</li>
+<li>🔐 Data stays on your device</li>
 </ul>
 
-<form method="post">
-<button type="submit">Get Started</button>
-</form>
-
-<p class="small">No sign-up required • Free to use</p>
-
-</div>
-<button id="installBtn" class="install-btn hidden">
-  📲 Install Invoice Pro
+<button id="installCardBtn" class="install-card-btn">
+📲 Install App
 </button>
-<style>
-    .install-btn{
-    position:fixed;
-    bottom:80px;
-    left:50%;
-    transform:translateX(-50%);
-    padding:14px 22px;
-    font-size:15px;
-    font-weight:700;
-    border:none;
-    border-radius:30px;
-    background:linear-gradient(135deg,#5b6cff,#7c8cff);
-    color:#fff;
-    box-shadow:0 10px 30px rgba(0,0,0,.25);
-    cursor:pointer;
-    z-index:2000;
 
-    animation:
-        float 3s ease-in-out infinite,
-        pulse 2s infinite;
-}
+<p class="subtitle" style="margin-top:14px;font-size:12px">
+No sign-up • Free forever
+</p>
+</div>
 
-/* hidden initially */
-.hidden{display:none}
+<!-- INSTALL MODAL -->
+<div id="installModal" class="modal">
+<div class="modal-box">
+<h2>Install Invoice Pro</h2>
+<p id="installText"></p>
 
-/* floating effect */
-@keyframes float{
-    0%,100%{transform:translate(-50%,0)}
-    50%{transform:translate(-50%,-8px)}
-}
+<div class="modal-actions">
+<button id="installNow" class="primary">Install</button>
+<button onclick="closeModal()" class="secondary">Later</button>
+</div>
+</div>
+</div>
 
-/* glow pulse */
-@keyframes pulse{
-    0%{box-shadow:0 0 0 0 rgba(91,108,255,.6)}
-    70%{box-shadow:0 0 0 18px rgba(91,108,255,0)}
-    100%{box-shadow:0 0 0 0 rgba(91,108,255,0)}
-}
-
-/* click ripple */
-.install-btn:active{
-    transform:translateX(-50%) scale(.95);
-}
-</style>
 <script>
-let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+    window.location.href = "/index.html";
+}
+let deferredPrompt = null;
 
+const modal = document.getElementById("installModal");
+const installText = document.getElementById("installText");
+const installBtn = document.getElementById("installCardBtn");
+const installNow = document.getElementById("installNow");
+
+/* Detect iOS */
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
+
+/* Hide if already installed */
+if (isStandalone) {
+    installBtn.style.display = "none";
+}
+
+/* Android / Chrome */
 window.addEventListener("beforeinstallprompt", e => {
     e.preventDefault();
     deferredPrompt = e;
-    installBtn.classList.remove("hidden");
 });
 
-installBtn.addEventListener("click", async () => {
-    if(!deferredPrompt) return;
+installBtn.addEventListener("click", () => {
+    modal.classList.add("show");
+
+    if (isIOS) {
+        installText.innerHTML =
+        `Tap <b>Share</b> → <b>Add to Home Screen</b><br>
+        to install this app on your iPhone.`;
+        installNow.style.display="none";
+    } else {
+        installText.innerText =
+        "Install Invoice Pro for faster access and offline use.";
+        installNow.style.display="block";
+    }
+});
+
+installNow.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
     deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-
-    if(outcome === "accepted"){
-        installBtn.style.display="none";
-    }
+    if (outcome === "accepted") closeModal();
     deferredPrompt = null;
 });
 
-/* hide button after install */
+function closeModal(){
+    modal.classList.remove("show");
+}
+
+/* After install */
 window.addEventListener("appinstalled", () => {
     installBtn.style.display="none";
+    closeModal();
 });
 </script>
 

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, send_file
+from flask import Flask, render_template, request, redirect, url_for, send_file, send_from_directory, abort
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import ImageReader
@@ -6,8 +6,6 @@ from io import BytesIO
 from datetime import datetime
 import json, os
 from werkzeug.utils import secure_filename
-from flask import send_from_directory, abort
-import os
 
 app = Flask(__name__)
 
@@ -32,7 +30,8 @@ def load_json(path, default):
 def save_json(path, data):
     with open(path, "w") as f:
         json.dump(data, f, indent=4)
-        
+
+# ---------- VIEW INVOICE ----------
 @app.route("/invoice/<invoice_no>")
 def view_invoice(invoice_no):
     pdf_folder = os.path.join(app.root_path, "invoices")
@@ -46,13 +45,7 @@ def view_invoice(invoice_no):
         pdf_file,
         mimetype="application/pdf"
     )
-@app.route("/manifest.json")
-def manifest():
-    return send_from_directory(app.root_path, "manifest.json")
 
-@app.route("/sw.js")
-def service_worker():
-    return send_from_directory(app.root_path, "sw.js")
 # ---------- WELCOME ----------
 @app.route("/welcome", methods=["GET", "POST"])
 def welcome():
@@ -142,7 +135,7 @@ def reset_app():
         os.remove(FIRST_RUN_FILE)
     return redirect("/")
 
-# ---------- STATIC ----------
+# ---------- STATIC PAGES ----------
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -243,9 +236,12 @@ def generate_invoice():
     pdf.save()
     buffer.seek(0)
 
-    return send_file(buffer, as_attachment=True,
-                     download_name=f"{pdf_name}.pdf",
-                     mimetype="application/pdf")
+    return send_file(
+        buffer,
+        as_attachment=True,
+        download_name=f"{pdf_name}.pdf",
+        mimetype="application/pdf"
+    )
 
 # ---------- RUN ----------
 if __name__ == "__main__":

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice Pro</title>
+
 <link rel="manifest" href="/static/manifest.json">
 <meta name="theme-color" content="#5b6cff">
 
@@ -89,7 +90,7 @@ body{
     margin-bottom:16px
 }
 
-/* ---------- INTRO (NEW) ---------- */
+/* ---------- INTRO ---------- */
 .intro-card{
     background:var(--card);
     padding:16px;
@@ -133,7 +134,7 @@ body{
     color:var(--sub)
 }
 
-/* ---------- FOOTER (NEW) ---------- */
+/* ---------- FOOTER ---------- */
 .app-footer{
     text-align:center;
     padding:14px;
@@ -190,184 +191,64 @@ body{
 
 <main class="app-body">
 
-    <!-- 🔹 ABOUT APP (NEW) -->
-    <!-- 🔹 APP INFO POPUP -->
+<!-- INFO ROTATOR -->
 <div class="info-popup" id="infoPopup">
     <span id="infoText"></span>
-    <style>
-        .info-popup{
-    background: var(--card);
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin-bottom: 16px;
-    box-shadow: 0 6px 16px rgba(0,0,0,.08);
-    font-size: 14px;
-    color: var(--text);
-    min-height: 60px;
-    display: flex;
-    align-items: center;
-    animation: fadeIn 0.5s ease;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(6px);}
-    to{opacity:1; transform:translateY(0);}
-}
-    </style>
-    <script>
-const infoLines = [
-  "📄 Invoice Pro helps you create professional invoices easily.",
-  "🧾 Generate Shop, Office, School & Personal invoices.",
-  "📂 Your invoice data stays on your device only.",
-  "🔐 We do not collect or share personal information.",
-  "📸 Attach payment proof images in invoices.",
-  "🌙 Light & Dark mode supported.",
-  "📑 Invoice history is stored locally.",
-  "🔒 Privacy-first & offline friendly application."
-];
-
-let index = 0;
-const infoText = document.getElementById("infoText");
-
-function rotateInfo(){
-    infoText.innerText = infoLines[index];
-    index = (index + 1) % infoLines.length;
-}
-
-rotateInfo();
-setInterval(rotateInfo, 2000); // change line every 3 sec
-</script>
 </div>
 
-    <p class="subtitle">Select category</p>
+<p class="subtitle">Select category</p>
 
-    <div class="app-grid">
-        <a href="/shop" class="app-card">
-            <span>🏪</span><h3>Shop</h3><p>Business</p>
-        </a>
-        <a href="/office" class="app-card">
-            <span>🏢</span><h3>Office</h3><p>Freelance</p>
-        </a>
-        <a href="/school" class="app-card">
-            <span>🏫</span><h3>School</h3><p>Fees</p>
-        </a>
-        <a href="/personal" class="app-card">
-            <span>👤</span><h3>Personal</h3><p>Private</p>
-        </a>
-    </div>
+<div class="app-grid">
+    <a href="/shop" class="app-card"><span>🏪</span><h3>Shop</h3><p>Business</p></a>
+    <a href="/office" class="app-card"><span>🏢</span><h3>Office</h3><p>Freelance</p></a>
+    <a href="/school" class="app-card"><span>🏫</span><h3>School</h3><p>Fees</p></a>
+    <a href="/personal" class="app-card"><span>👤</span><h3>Personal</h3><p>Private</p></a>
+</div>
 
-    <!-- 🔹 FOOTER LINKS (NEW) -->
-    <footer class="app-footer">
-        <a href="/about">About</a> •
-        <a href="/privacy">Privacy Policy</a>
-    </footer>
+<footer class="app-footer">
+    <a href="/about">About</a> •
+    <a href="/privacy">Privacy Policy</a>
+</footer>
 
 </main>
 
-<!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-    <a href="/" class="active">
-        <span>🏠</span>
-        <small>Home</small>
-    </a>
-
-    <a href="/history">
-        <span>🧾</span>
-        <small>History</small>
-    </a>
-
-    <a href="/settings">
-        <span>⚙</span>
-        <small>Settings</small>
-    </a>
+    <a href="/" class="active"><span>🏠</span><small>Home</small></a>
+    <a href="/history"><span>🧾</span><small>History</small></a>
+    <a href="/settings"><span>⚙</span><small>Settings</small></a>
 </nav>
 
 <script>
+/* Theme */
 function setTheme(mode){
     document.body.classList.toggle("dark",mode==="dark");
     localStorage.setItem("theme",mode);
-    document.getElementById("lightBtn").classList.toggle("active",mode==="light");
-    document.getElementById("darkBtn").classList.toggle("active",mode==="dark");
+    lightBtn.classList.toggle("active",mode==="light");
+    darkBtn.classList.toggle("active",mode==="dark");
 }
 setTheme(localStorage.getItem("theme")||"light");
-</script>
-<!-- PWA INSTALL BANNER -->
-<div id="pwa-banner" style="
-    position:fixed;
-    bottom:70px;
-    left:16px;
-    right:16px;
-    background:var(--card);
-    border-radius:14px;
-    padding:14px;
-    box-shadow:0 8px 20px rgba(0,0,0,.15);
-    display:none;
-    z-index:2000;
-">
-    <strong>📲 Install Invoice Pro</strong>
-    <p style="font-size:13px;color:var(--sub);margin:6px 0;">
-        Add app to home screen for faster access
-    </p>
 
-    <div style="display:flex;gap:10px;">
-        <button onclick="installPWA()" style="
-            flex:1;
-            padding:8px;
-            border:none;
-            border-radius:10px;
-            background:#5b6cff;
-            color:white;
-            font-weight:600;
-        ">
-            Install
-        </button>
-
-        <button onclick="hidePWABanner()" style="
-            flex:1;
-            padding:8px;
-            border:none;
-            border-radius:10px;
-            background:#e5e7eb;
-        ">
-            Later
-        </button>
-    </div>
-    <script>
-let deferredPrompt;
-
-window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    if (!localStorage.getItem("pwaDismissed")) {
-        document.getElementById("pwa-banner").style.display = "block";
-    }
-});
-
-function installPWA() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-            deferredPrompt = null;
-            hidePWABanner();
-        });
-    }
+/* Info Rotator */
+const infoLines=[
+"📄 Create professional invoices easily",
+"📂 Data stays on your device only",
+"🔐 Privacy-first & offline app",
+"🌙 Light & Dark mode supported"
+];
+let i=0;
+const infoText=document.getElementById("infoText");
+function rotateInfo(){
+    infoText.innerText=infoLines[i];
+    i=(i+1)%infoLines.length;
 }
+rotateInfo();
+setInterval(rotateInfo,2000);
 
-function hidePWABanner() {
-    document.getElementById("pwa-banner").style.display = "none";
-    localStorage.setItem("pwaDismissed", "yes");
+/* Service Worker */
+if("serviceWorker"in navigator){
+    navigator.serviceWorker.register("/static/service-worker.js");
 }
 </script>
-</div>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/static/service-worker.js")
-      .then(reg => console.log("SW registered:", reg.scope))
-      .catch(err => console.log("SW error:", err));
-  });
-}
-</script>
+
 </body>
 </html>

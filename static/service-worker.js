@@ -1,8 +1,8 @@
-const CACHE_NAME = "invoice-pro-v1";
+const CACHE_NAME = "invoice-pro-v2";
 
 const ASSETS = [
-  "/",
-  "/welcome",
+  "/",                 // index.html
+  "/welcome",          // welcome.html
   "/static/manifest.json",
   "/static/icons/icon-192.png",
   "/static/icons/icon-512.png"
@@ -26,9 +26,16 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
+
+  /* Handle navigation requests safely */
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request).catch(() => caches.match("/"))
+    );
+    return;
+  }
+
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+    caches.match(event.request).then(res => res || fetch(event.request))
   );
 });
