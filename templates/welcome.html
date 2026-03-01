@@ -1,70 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>Welcome – Invoice Pro</title>
+
 <link rel="manifest" href="/static/manifest.json">
 <meta name="theme-color" content="#5b6cff">
+
 <style>
 :root{
     --primary:#5b6cff;
     --secondary:#7c8cff;
 }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-*{box-sizing:border-box}
+html,body{
+    width:100%;
+    overflow-x:hidden; /* 🔥 MAIN FIX */
+}
 
 body{
     background:linear-gradient(135deg,var(--primary),var(--secondary));
     font-family:system-ui,-apple-system;
-    margin:0;
-
-    min-height:100dvh;   /* 🔥 mobile safe viewport */
+    min-height:100dvh;
     display:flex;
     align-items:center;
     justify-content:center;
-
     color:#fff;
-    overflow:auto;       /* allow scroll on small phones */
     padding:16px;
 }
-.card{
-    max-width:420px;
-    width:100%;
-}
 
-/* background bubbles */
+/* 🌫 PREMIUM FLOATING BLOBS */
 .bg{
-    position:absolute;
-    width:260px;
-    height:260px;
+    position:fixed;
+    width:240px;
+    height:240px;
     background:rgba(255,255,255,.08);
     border-radius:50%;
-    animation:float 12s infinite ease-in-out;
+    animation:float 14s infinite ease-in-out;
+    filter:blur(2px);
 }
 .bg.two{
-    width:200px;
-    height:200px;
-    right:-50px;
-    bottom:-50px;
-    animation-delay:5s;
-}
-@keyframes float{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-30px)}
+    width:180px;
+    height:180px;
+    right:-40px;
+    bottom:-40px;
+    animation-delay:6s;
 }
 
-/* card */
+@keyframes float{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-35px)}
+}
+
+/* 🧊 PREMIUM GLASS CARD */
 .card{
-    background:rgba(255,255,255,0.18);
+    background:rgba(255,255,255,0.20);
     padding:34px;
     border-radius:26px;
     max-width:420px;
-    width:90%;
+    width:100%;
     text-align:center;
-    backdrop-filter:blur(14px);
-    box-shadow:0 20px 50px rgba(0,0,0,.2);
+    backdrop-filter:blur(18px);
+    box-shadow:0 30px 70px rgba(0,0,0,.25);
+    animation:cardIn .8s ease-out;
+}
+
+@keyframes cardIn{
+    from{opacity:0;transform:translateY(30px) scale(.96)}
+    to{opacity:1;transform:none}
 }
 
 .logo-wrap{
@@ -75,8 +84,8 @@ body{
     display:flex;
     align-items:center;
     justify-content:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
 }
-
 .logo-wrap img{width:54px}
 
 h1{font-size:26px;margin:8px 0}
@@ -84,12 +93,13 @@ h1{font-size:26px;margin:8px 0}
 
 ul{
     list-style:none;
-    padding:0;margin:20px 0;
-    text-align:left;font-size:14px;
+    margin:20px 0;
+    text-align:left;
+    font-size:14px;
 }
 ul li{margin-bottom:8px}
 
-/* install CTA inside card */
+/* ✨ PREMIUM BUTTON */
 .install-card-btn{
     width:100%;
     padding:14px;
@@ -101,9 +111,19 @@ ul li{margin-bottom:8px}
     background:#fff;
     color:var(--primary);
     margin-top:16px;
+    transition:all .25s ease;
 }
 
-/* modal */
+.install-card-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 25px rgba(0,0,0,.25);
+}
+
+.install-card-btn:active{
+    transform:scale(.98);
+}
+
+/* MODAL */
 .modal{
     position:fixed;
     inset:0;
@@ -116,17 +136,20 @@ ul li{margin-bottom:8px}
 .modal.show{display:flex}
 
 .modal-box{
-    background:rgba(255,255,255,.18);
+    background:rgba(255,255,255,.2);
     backdrop-filter:blur(18px);
     border-radius:22px;
     padding:26px;
     width:90%;
     max-width:360px;
     text-align:center;
+    animation:modalIn .3s ease;
 }
 
-.modal-box h2{margin-top:0}
-.modal-box p{font-size:14px;line-height:1.6}
+@keyframes modalIn{
+    from{opacity:0;transform:scale(.9)}
+    to{opacity:1}
+}
 
 .modal-actions button{
     width:100%;
@@ -135,8 +158,8 @@ ul li{margin-bottom:8px}
     border-radius:12px;
     border:none;
     font-weight:700;
-    cursor:pointer;
 }
+
 .primary{background:#fff;color:var(--primary)}
 .secondary{background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4)}
 </style>
@@ -148,15 +171,12 @@ ul li{margin-bottom:8px}
 <div class="bg two"></div>
 
 <div class="card">
-
 <div class="logo-wrap">
 <img src="{{ url_for('static', filename='icons/icon-512.png') }}">
 </div>
 
 <h1>Invoice Pro</h1>
-<p class="subtitle">
-Create professional invoices in seconds — fast, private & offline.
-</p>
+<p class="subtitle">Create professional invoices in seconds — fast, private & offline.</p>
 
 <ul>
 <li>📄 Instant invoice creation</li>
@@ -165,21 +185,24 @@ Create professional invoices in seconds — fast, private & offline.
 <li>🔐 Data stays on your device</li>
 </ul>
 
-<button id="installCardBtn" class="install-card-btn">
-📲 Install App
+<button id="installCardBtn" class="install-card-btn">📲 Install App</button>
+
+<form method="POST" action="/welcome">
+<button type="submit" class="install-card-btn">
+🚀 Get Started
 </button>
+</form>
 
 <p class="subtitle" style="margin-top:14px;font-size:12px">
 No sign-up • Free forever
 </p>
 </div>
 
-<!-- INSTALL MODAL -->
+<!-- MODAL -->
 <div id="installModal" class="modal">
 <div class="modal-box">
 <h2>Install Invoice Pro</h2>
 <p id="installText"></p>
-
 <div class="modal-actions">
 <button id="installNow" class="primary">Install now</button>
 <button onclick="closeModal()" class="secondary">Later</button>
@@ -188,73 +211,32 @@ No sign-up • Free forever
 </div>
 
 <script>
-/* 1️⃣ Elements define */
 const installBtn = document.getElementById("installCardBtn");
 const modal = document.getElementById("installModal");
 const installText = document.getElementById("installText");
 const installNow = document.getElementById("installNow");
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-
-function closeModal(){
-    modal.classList.remove("show");
-}
-
 let deferredPrompt = null;
 
-/* 2️⃣ Install button HIDE by default */
-installBtn.style.display = "none";
+function closeModal(){ modal.classList.remove("show"); }
 
-/* 3️⃣ Browser jab ready ho tab hi show */
-window.addEventListener("beforeinstallprompt", (e) => {
+window.addEventListener("beforeinstallprompt", e=>{
     e.preventDefault();
-    deferredPrompt = e;
-    installBtn.style.display = "block";
+    deferredPrompt=e;
 });
 
-/* 4️⃣ Button click */
-installBtn.addEventListener("click", () => {
+installBtn.onclick=()=>{
     modal.classList.add("show");
-
-    if (isIOS) {
-        installText.innerHTML =
-        `Tap <b>Share</b> → <b>Add to Home Screen</b>`;
-        installNow.style.display = "none";
-    } 
-    else if (!deferredPrompt) {
-        installText.innerText =
-        "Install option will appear once browser allows it.";
-        installNow.style.display = "none";
+    if(isIOS){
+        installText.innerHTML=`Tap <b>Share</b> → <b>Add to Home Screen</b>`;
+        installNow.style.display="none";
+    }else{
+        installText.innerText="Install Invoice Pro for faster access and offline use.";
+        installNow.style.display="block";
     }
-    else {
-        installText.innerText =
-        "Install Invoice Pro for faster access and offline use.";
-        installNow.style.display = "block";
-    }
-});
+};
 
-/* 5️⃣ Trigger install */
-installNow.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-
-    deferredPrompt.prompt();
-    const choice = await deferredPrompt.userChoice;
-
-    if (choice.outcome === "accepted") {
-        closeModal();
-    }
-    deferredPrompt = null;
-});
-// iOS ke liye install button visible rakho
-if (isIOS) {
-    installBtn.style.display = "block";
-}
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/static/service-worker.js");
-  });
-}
+installNow.onclick=()=>deferredPrompt && deferredPrompt.prompt();
 </script>
 
 </body>
