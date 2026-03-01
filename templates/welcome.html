@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Welcome – Invoice Pro</title>
-<link rel="menifest" href="/static/menifest.json">
+<link rel="manifest" href="/static/manifest.json">
 <meta name="theme-color" content="#5b6cff">
 <style>
 :root{
@@ -19,12 +19,19 @@ body{
     background:linear-gradient(135deg,var(--primary),var(--secondary));
     font-family:system-ui,-apple-system;
     margin:0;
-    height:100vh;
+
+    min-height:100dvh;   /* 🔥 mobile safe viewport */
     display:flex;
     align-items:center;
     justify-content:center;
+
     color:#fff;
-    overflow:hidden;
+    overflow:auto;       /* allow scroll on small phones */
+    padding:16px;
+}
+.card{
+    max-width:420px;
+    width:100%;
 }
 
 /* background bubbles */
@@ -174,70 +181,73 @@ No sign-up • Free forever
 <p id="installText"></p>
 
 <div class="modal-actions">
-<button id="installNow" class="primary">Install</button>
+<button id="installNow" class="primary">Install now</button>
 <button onclick="closeModal()" class="secondary">Later</button>
 </div>
 </div>
 </div>
 
 <script>
-    if (window.matchMedia('(display-mode: standalone)').matches) {
-    window.location.href = "/";
-}
-let deferredPrompt = null;
-
+/* 1️⃣ Elements define */
+const installBtn = document.getElementById("installCardBtn");
 const modal = document.getElementById("installModal");
 const installText = document.getElementById("installText");
-const installBtn = document.getElementById("installCardBtn");
 const installNow = document.getElementById("installNow");
-
-/* Detect iOS */
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
-
-/* Hide if already installed */
-if (isStandalone) {
-    installBtn.style.display = "none";
-}
-
-/* Android / Chrome */
-window.addEventListener("beforeinstallprompt", e => {
-    e.preventDefault();
-    deferredPrompt = e;
-});
-
-installBtn.addEventListener("click", () => {
-    modal.classList.add("show");
-
-    if (isIOS) {
-        installText.innerHTML =
-        `Tap <b>Share</b> → <b>Add to Home Screen</b><br>
-        to install this app on your iPhone.`;
-        installNow.style.display="none";
-    } else {
-        installText.innerText =
-        "Install Invoice Pro for faster access and offline use.";
-        installNow.style.display="block";
-    }
-});
-
-installNow.addEventListener("click", async () => {
-    if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === "accepted") closeModal();
-    deferredPrompt = null;
-});
 
 function closeModal(){
     modal.classList.remove("show");
 }
 
-/* After install */
-window.addEventListener("appinstalled", () => {
-    installBtn.style.display="none";
-    closeModal();
+let deferredPrompt = null;
+
+/* 2️⃣ Install button HIDE by default */
+installBtn.style.display = "none";
+
+/* 3️⃣ Browser jab ready ho tab hi show */
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    installBtn.style.display = "block";
 });
+
+/* 4️⃣ Button click */
+installBtn.addEventListener("click", () => {
+    modal.classList.add("show");
+
+    if (isIOS) {
+        installText.innerHTML =
+        `Tap <b>Share</b> → <b>Add to Home Screen</b>`;
+        installNow.style.display = "none";
+    } 
+    else if (!deferredPrompt) {
+        installText.innerText =
+        "Install option will appear once browser allows it.";
+        installNow.style.display = "none";
+    }
+    else {
+        installText.innerText =
+        "Install Invoice Pro for faster access and offline use.";
+        installNow.style.display = "block";
+    }
+});
+
+/* 5️⃣ Trigger install */
+installNow.addEventListener("click", async () => {
+    if (!deferredPrompt) return;
+
+    deferredPrompt.prompt();
+    const choice = await deferredPrompt.userChoice;
+
+    if (choice.outcome === "accepted") {
+        closeModal();
+    }
+    deferredPrompt = null;
+});
+// iOS ke liye install button visible rakho
+if (isIOS) {
+    installBtn.style.display = "block";
+}
 </script>
 <script>
 if ("serviceWorker" in navigator) {
