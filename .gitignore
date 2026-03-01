@@ -21,4 +21,4 @@ Thumbs.db
 *.pdf
 
 # VS Code
-.vscode/
+.vscode/first_run.flag
